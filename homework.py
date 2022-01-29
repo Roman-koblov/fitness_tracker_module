@@ -1,4 +1,4 @@
-from __future__ import annotations
+from typing import Dict
 
 
 class InfoMessage:
@@ -6,8 +6,10 @@ class InfoMessage:
 
     def __init__(self,
                  training_type,
-                 duration, distance,
-                 speed, calories) -> None:
+                 duration,
+                 distance,
+                 speed,
+                 calories) -> None:
         self.training_type = training_type
         self.duration = duration
         self.distance = distance
@@ -40,7 +42,8 @@ class Training:
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
-        distance = round((self.action * self.LEN_STEP / self.M_IN_KM), 3)
+        m = self.LEN_STEP / self.M_IN_KM
+        distance: float = round((self.action * m), 3)
         return distance
 
     def get_mean_speed(self) -> float:
@@ -54,7 +57,8 @@ class Training:
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        return InfoMessage()
+        info_message = InfoMessage()
+        return info_message
 
 
 class Running(Training):
@@ -112,6 +116,7 @@ class Swimming(Training):
                          M_IN_KM=1000)
         self.lengh_pool = lengh_pool
         self.count_pool = count_pool
+        self.LEN_STEP = LEN_STEP * 1.38
 
     def get_mean_speed(self) -> float:
         n = self.count_pool / self.M_IN_KM / self.duration
@@ -125,9 +130,10 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    read: dict = {'SWM': Swimming, 'RUN': Running, 'WLK': SportsWalking}
-    if read.get(workout_type) is None:
-        return read[workout_type](*data)
+    read: Dict[str, Training] = {'SWM': Swimming,
+                                 'RUN': Running,
+                                 'WLK': SportsWalking}
+    return read[workout_type](*data)
 
 
 def main(training: Training) -> None:
