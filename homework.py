@@ -71,7 +71,8 @@ class Running(Training):
         coeff_calorie_2 = 20
         M_IN_KM = 1000
         x = self.weight / M_IN_KM * self.duration
-        calories = (coeff_calorie_1 * self.get_mean_speed()) - coeff_calorie_2 * x
+        x2 = (coeff_calorie_1 * self.get_mean_speed())
+        calories = x2 - coeff_calorie_2 * x
         return calories
 
 
