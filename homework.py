@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Dict, List
 from dataclasses import dataclass, asdict
 
 
@@ -10,21 +10,21 @@ class InfoMessage:
     distance: float
     speed: float
     calories: float
-    info_message: str = ('Тип тренировки: {training_type}; '
-                         + 'Длительность: {duration:.3f} ч.; '
-                         + 'Дистанция: {distance:.3f} км; '
-                         + 'Ср. скорость: {speed:.3f} км/ч; '
-                         + 'Потрачено ккал: {calories:.3f}.')
+    INFO_MESSAGE = ('Тип тренировки: {training_type}; '
+                    + 'Длительность: {duration:.3f} ч.; '
+                    + 'Дистанция: {distance:.3f} км; '
+                    + 'Ср. скорость: {speed:.3f} км/ч; '
+                    + 'Потрачено ккал: {calories:.3f}.')
 
     def get_message(self) -> str:
-        return self.info_message.format(**asdict(self))
+        return self.INFO_MESSAGE.format(**asdict(self))
 
 
 class Training:
     """Базовый класс тренировки."""
     M_IN_KM: float = 1000
     LEN_STEP: float = 0.65
-    HR_TO_MIN: int = 60
+    HOUR_TO_MIN: int = 60
 
     def __init__(self,
                  action: int,
@@ -47,7 +47,8 @@ class Training:
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         raise NotImplementedError(
-            'Данные о потраченных каллориях не получены.')
+            'Не реализован метод подсчёта потраченных каллорий '
+            + 'в классах тренировок')
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -66,12 +67,12 @@ class Running(Training):
     # было не всегда понятно, что они значат в формулах.
 
     def get_spent_calories(self) -> float:
-        calories_kkal: float = (
+        calories_kcal: float = (
             (self.CALORIES_MEAN_SPEED_MULTIPLIER * self.get_mean_speed()
              - self.CALORIES_MEAN_SPEED_SUBSTRACT) * self.weight_kg
-            / self.M_IN_KM * (self.duration_hr * self.HR_TO_MIN)
+            / self.M_IN_KM * (self.duration_hr * self.HOUR_TO_MIN)
         )
-        return calories_kkal
+        return calories_kcal
 
 
 class SportsWalking(Training):
@@ -90,12 +91,12 @@ class SportsWalking(Training):
         self.height_m: float = height
 
     def get_spent_calories(self) -> float:
-        calories_kkal: float = (
+        calories_kcal: float = (
             (self.WEIGHT_MULTIPLIER * self.weight_kg + self.get_mean_speed()
              ** 2 // self.height_m * self.HEIGHT_MULTIPLIER * self.weight_kg)
-            * (self.duration_hr * self.HR_TO_MIN)
+            * (self.duration_hr * self.HOUR_TO_MIN)
         )
-        return calories_kkal
+        return calories_kcal
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
@@ -129,11 +130,11 @@ class Swimming(Training):
         return speed_kph
 
     def get_spent_calories(self) -> float:
-        calories_kkal: float = (
+        calories_kcal: float = (
             (self.get_mean_speed() + self.MEAN_SPEED_SUMMAND)
             * self.CALORIES_MEAN_SPEED_MULTIPLIER * self.weight_kg
         )
-        return calories_kkal
+        return calories_kcal
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
@@ -141,15 +142,16 @@ class Swimming(Training):
         return distance_km
 
 
-def read_package(workout_type: str, data: Optional[int]) -> Training:
+def read_package(workout_type: str, data: List[int]) -> Training:
     """Прочитать данные полученные от датчиков."""
     trainings: Dict[str, Training] = {'SWM': Swimming,
                                       'RUN': Running,
                                       'WLK': SportsWalking}
-    if workout_type in trainings:
-        return trainings[workout_type](*data)
+
     if workout_type not in trainings:
         raise ValueError('Не удалось определить тип тренировки')
+    else:
+        return trainings[workout_type](*data)
 
 
 def main(training: Training):
