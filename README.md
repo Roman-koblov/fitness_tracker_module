@@ -136,7 +136,7 @@ def main(training)
 
 <pre><code>git clone [https://github.com/Roman-koblov/fitness_tracker_module]</code>
 
-<code>cd api_yamdb</code></pre>
+<code>cd fitness_tracker_module</code></pre>
 
 Cоздать и активировать виртуальное окружение:
 
