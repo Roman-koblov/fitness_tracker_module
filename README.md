@@ -127,3 +127,21 @@ def main(training)
 результатом выполнения метода должен быть объект класса `InfoMessage`, его нужно сохранить в переменную `info`.
 – Для объекта `InfoMessage`, сохранённого в переменной `info`, должен быть вызван метод,
 который вернёт строку сообщения с данными о тренировке; эту строку нужно передать в функцию `print()`.
+
+## Развертывание
+
+Клонировать репозиторий и перейти в него в командной строке:
+
+<pre><code>git clone [https://github.com/Roman-koblov/fitness_tracker_module]</code>
+
+<code>cd api_yamdb</code></pre>
+
+Cоздать и активировать виртуальное окружение:
+
+<pre><code>python3 -m venv venv source venv/bin/activate</code></pre>
+
+Установить зависимости из файла requirements.txt:
+
+<pre><code>python -m pip install --upgrade pip</code>
+
+<code>pip install -r requirements.txt</code></pre>
