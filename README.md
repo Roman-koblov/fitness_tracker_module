@@ -156,6 +156,7 @@ def main(training)
 
 
 ## Как разместить и запустить проект
+*команды указаны для MacOS/Linux, на Windows используйте -python3 и pip3- python и pip*
 
 Клонировать репозиторий и перейти в него в командной строке:
 
@@ -169,6 +170,6 @@ Cоздать и активировать виртуальное окружен�
 
 Установить зависимости из файла requirements.txt:
 
-<pre><code>python -m pip install --upgrade pip</code>
+<pre><code>python3 -m pip install --upgrade pip</code>
 
-<code>pip install -r requirements.txt</code></pre>
+<code>pip3 install -r requirements.txt</code></pre>
