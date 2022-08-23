@@ -156,7 +156,7 @@ def main(training)
 
 
 ## Как разместить и запустить проект
-> *команды указаны для MacOS/Linux, на Windows используйте python и pip ~~python3 и pip3~~*
+> *команды указаны для MacOS/Linux, на Windows используйте ~~python3 и pip3~~ python и pip*
 
 Клонировать репозиторий и перейти в него в командной строке:
 
